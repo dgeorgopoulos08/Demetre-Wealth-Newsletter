@@ -1,0 +1,67 @@
+---
+import '../styles/global.css';
+import { SITE } from '../config';
+
+interface Props {
+  title?: string;
+  description?: string;
+}
+
+const { title, description } = Astro.props;
+const pageTitle = title ? `${title} — ${SITE.name}` : SITE.name;
+const pageDescription = description ?? SITE.tagline;
+const year = new Date().getFullYear();
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{pageTitle}</title>
+    <meta name="description" content={pageDescription} />
+    <meta property="og:title" content={pageTitle} />
+    <meta property="og:description" content={pageDescription} />
+    <meta property="og:type" content="website" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="alternate" type="application/rss+xml" title={SITE.name} href="/rss.xml" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Young+Serif&family=Public+Sans:ital,wght@0,400;0,600;0,700;1,400&family=Spline+Sans+Mono:wght@400;500&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <header class="topbar">
+      <div class="wrap topbar__inner">
+        <a class="topbar__name" href="/">{SITE.name}</a>
+        <nav class="topbar__nav" aria-label="Site">
+          <a href="/#issues">Issues</a>
+          <a href="/the-transfer">The Transfer</a>
+          <a href="/about">About</a>
+          {SITE.subscribeUrl && <a href={SITE.subscribeUrl}>Subscribe</a>}
+        </nav>
+      </div>
+    </header>
+
+    <main>
+      <slot />
+    </main>
+
+    <footer class="footer">
+      <div class="wrap footer__inner">
+        <div class="footer__name">{SITE.name}</div>
+        <nav class="footer__links" aria-label="Footer">
+          <a href="/">Home</a>
+          <a href="/the-transfer">The Transfer</a>
+          <a href="/about">About</a>
+          <a href="/rss.xml">RSS</a>
+          {SITE.linkedin && <a href={SITE.linkedin}>LinkedIn</a>}
+        </nav>
+        <p class="footer__disclaimer">{SITE.disclaimer}</p>
+        <div class="footer__copy">© {year} {SITE.author}. Every Sunday.</div>
+      </div>
+    </footer>
+  </body>
+</html>

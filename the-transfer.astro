@@ -1,0 +1,92 @@
+---
+import Base from '../layouts/Base.astro';
+import { SITE } from '../config';
+---
+
+<Base
+  title="The Transfer"
+  description="The $84 trillion wealth transfer, explained — and why it deserves coverage from the receiving end."
+>
+  <section class="about wrap wrap--narrow">
+    <p class="eyebrow">The thesis</p>
+    <h1>Eighty-four trillion dollars is changing hands. Almost nobody covers it from the receiving end.</h1>
+    <div class="prose">
+      <p class="thesis-lede">
+        Between now and 2045, research firm Cerulli Associates projects that
+        roughly $84 trillion in U.S. wealth will pass from older generations to
+        younger ones — about $72 trillion directly to heirs, with most of the
+        rest going to charity. It is the largest movement of money in history,
+        and it is already underway.
+      </p>
+
+      <h2>Why it matters</h2>
+      <p>
+        This isn't just a family matter. The transfer will reshape markets:
+        which assets get bought and sold, how portfolios are positioned, which
+        industries attract capital, and how trillions of dollars think about
+        risk, time, and purpose. It will reshape the wealth management industry
+        too — studies consistently find that a large majority of heirs leave
+        their parents' financial advisor after inheriting. Trillions of dollars
+        are about to go looking for new relationships.
+      </p>
+      <p>
+        And it is global. The next generation's wealth won't sit quietly in a
+        domestic index fund. Currencies, foreign central banks, trade routes,
+        energy markets, and cross-border families all pull on it. That's why
+        this letter covers the world economy alongside Wall Street — a
+        generation inheriting globally connected wealth needs a globally
+        connected view.
+      </p>
+
+      <h2>The coverage gap</h2>
+      <p>
+        Nearly everyone writing about the transfer is on the sending side:
+        advisors, estate attorneys, executives, and firms marketing to the
+        people giving the money away. The receiving side — the people who will
+        actually hold this wealth — is written <em>about</em>, rarely written
+        <em>for</em>, and almost never written <em>by</em>.
+      </p>
+      <p>
+        That's the gap this letter fills. I'm on the receiving side of the
+        demographic, and I'm training on the professional side of the industry.
+        Advisors read it to understand their next clients. Their next clients
+        read it to understand what's coming.
+      </p>
+
+      <h2>What arrives every Sunday</h2>
+      <p>
+        Each issue follows the same architecture, so you always know what
+        you're getting:
+      </p>
+      <p>
+        <strong>The Week in One Breath</strong> — the week's market action in a
+        single paragraph. <strong>Three Things That Mattered</strong> — the
+        stories that will still matter in a year, each with a "so what" for a
+        long-horizon investor. <strong>The Global Ledger</strong> — one story
+        from outside the U.S., because wealth doesn't stop at the border.
+        <strong>The Transfer</strong> — the signature segment: one insight on
+        the handoff itself. <strong>Chart of the Week</strong> and
+        <strong>On Deck</strong> — one picture worth keeping and the events
+        that matter next.
+      </p>
+
+      <h2>What this letter is not</h2>
+      <p>
+        It is not investment advice, stock picks, or predictions dressed up as
+        certainty. It's education and honest analysis, written by someone close
+        enough to the industry to know what matters and close enough to the
+        generation to know how it reads.
+      </p>
+
+      <p>
+        {
+          SITE.subscribeUrl ? (
+            <a class="btn" href={SITE.subscribeUrl}>Get the Sunday letter</a>
+          ) : (
+            <a href="/">Read the latest issues →</a>
+          )
+        }
+      </p>
+    </div>
+  </section>
+</Base>

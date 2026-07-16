@@ -1,0 +1,42 @@
+---
+import Base from '../layouts/Base.astro';
+import { SITE } from '../config';
+---
+
+<Base title="About">
+  <section class="about wrap wrap--narrow">
+    <p class="eyebrow">About</p>
+    <h1>Why a 21-year-old is covering the wealth transfer</h1>
+    <div class="prose">
+      <p>
+        Over the next two decades, roughly $84 trillion will move from one
+        generation to the next — the largest transfer of wealth in history.
+        Almost everyone writing about it is on the sending side: advisors,
+        estate attorneys, executives. I'm on the receiving side, and I'm
+        training to manage it.
+      </p>
+      <p>
+        I'm {SITE.author}, a finance and financial planning student at Virginia
+        Tech, currently working in wealth management. I've prepared tax returns
+        for high-net-worth families, worked with executive equity compensation
+        and pension plans at a $4B RIA, and I'm building a career in private
+        wealth. Every Sunday, I write about what happened in markets and what
+        it means for the generation about to inherit them — for the advisors
+        trying to understand their clients' kids, and for my peers trying to
+        understand what's coming to them.
+      </p>
+      <p>
+        <!-- Add a photo: put a file named "me.jpg" in the /public folder,
+             then remove this comment and uncomment the line below. -->
+        <!-- <img src="/me.jpg" alt="Portrait of {SITE.author}" width="320" /> -->
+      </p>
+      {
+        SITE.linkedin && (
+          <p>
+            Say hello on <a href={SITE.linkedin}>LinkedIn</a>.
+          </p>
+        )
+      }
+    </div>
+  </section>
+</Base>

@@ -1,0 +1,44 @@
+---
+import Base from '../../layouts/Base.astro';
+import { SITE } from '../../config';
+import { getCollection, render } from 'astro:content';
+
+export async function getStaticPaths() {
+  const issues = await getCollection('issues');
+  return issues.map((issue) => ({
+    params: { id: issue.id },
+    props: { issue },
+  }));
+}
+
+const { issue } = Astro.props;
+const { Content } = await render(issue);
+
+const fmt = new Intl.DateTimeFormat('en-US', {
+  weekday: 'long',
+  month: 'long',
+  day: 'numeric',
+  year: 'numeric',
+});
+---
+
+<Base title={issue.data.title} description={issue.data.dek}>
+  <article class="article wrap wrap--narrow">
+    <header class="article__header">
+      <p class="eyebrow">
+        {issue.data.issue ? `Issue No. ${issue.data.issue} · ` : ''}{fmt.format(issue.data.date)}
+      </p>
+      <h1>{issue.data.title}</h1>
+      {issue.data.dek && <p class="article__dek">{issue.data.dek}</p>}
+    </header>
+
+    <div class="prose">
+      <Content />
+    </div>
+
+    <footer class="article__footer">
+      <a class="article__back" href="/#issues">← All issues</a>
+      {SITE.subscribeUrl && <a class="btn" href={SITE.subscribeUrl}>Get next Sunday's letter</a>}
+    </footer>
+  </article>
+</Base>

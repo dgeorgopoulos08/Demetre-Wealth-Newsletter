@@ -1,0 +1,208 @@
+---
+import Base from '../layouts/Base.astro';
+import { SITE } from '../config';
+import { getCollection } from 'astro:content';
+
+const issues = (await getCollection('issues')).sort(
+  (a, b) => b.data.date.valueOf() - a.data.date.valueOf()
+);
+
+const latest = issues[0];
+const rest = issues.slice(1);
+
+const fmt = new Intl.DateTimeFormat('en-US', {
+  month: 'short',
+  day: 'numeric',
+  year: 'numeric',
+});
+
+function readingTime(body: string | undefined): number {
+  const words = (body ?? '').split(/\s+/).filter(Boolean).length;
+  return Math.max(1, Math.round(words / 220));
+}
+---
+
+<Base>
+  <section class="hero">
+    <div class="wrap">
+      <p class="eyebrow">A Sunday letter · Est. 2026</p>
+      <h1>
+        The largest transfer of wealth in history — covered from the
+        <span class="mark">receiving end</span>.
+      </h1>
+      <p class="ticker">
+        <strong id="transfer-count">$84,000,000,000,000</strong> changing hands by 2045
+      </p>
+      <p class="hero__tagline">{SITE.tagline}</p>
+      <p class="hero__byline">{SITE.byline}</p>
+      <div class="subscribe">
+        {
+          SITE.subscribeUrl ? (
+            <>
+              <a class="btn" href={SITE.subscribeUrl}>Get the Sunday letter</a>
+              <span class="subscribe__hint">Free. One email a week. No spam.</span>
+            </>
+          ) : (
+            <span class="subscribe__placeholder">
+              Subscribe button appears here once you add your Beehiiv link in
+              src/config.ts
+            </span>
+          )
+        }
+      </div>
+    </div>
+  </section>
+
+  <section class="stats" aria-label="The wealth transfer in numbers">
+    <div class="wrap">
+      <div class="stats__grid">
+        <div class="stat">
+          <div class="stat__num">$84T</div>
+          <div class="stat__label">Projected to change hands through 2045</div>
+        </div>
+        <div class="stat">
+          <div class="stat__num">$72T</div>
+          <div class="stat__label">Headed directly to heirs</div>
+        </div>
+        <div class="stat">
+          <div class="stat__num">2 gens</div>
+          <div class="stat__label">Millennials and Gen Z on the receiving end</div>
+        </div>
+      </div>
+      <p class="stats__source">
+        Estimates from Cerulli Associates' wealth transfer research.
+        <a href="/the-transfer">Read the full thesis →</a>
+      </p>
+    </div>
+  </section>
+
+  <section class="wrap" aria-label="What this letter covers">
+    <p class="section-label">What every Sunday covers</p>
+    <div class="coverage">
+      <div class="coverage__card">
+        <span class="coverage__kicker">01 · Markets</span>
+        <h3>The week that was</h3>
+        <p>
+          Stocks, bonds, rates, and the narrative that drove them — condensed so
+          you're caught up in one read, not forty tabs.
+        </p>
+      </div>
+      <div class="coverage__card">
+        <span class="coverage__kicker">02 · World economy</span>
+        <h3>The Global Ledger</h3>
+        <p>
+          One story from outside the U.S. each week — central banks, currencies,
+          trade, energy — because the next generation's wealth won't stop at the
+          border.
+        </p>
+      </div>
+      <div class="coverage__card">
+        <span class="coverage__kicker">03 · The signature</span>
+        <h3>The Transfer</h3>
+        <p>
+          One insight each week on the $84 trillion handoff: inheritance,
+          trusts, family money dynamics, and what the industry gets wrong about
+          its next clients.
+        </p>
+      </div>
+      <div class="coverage__card">
+        <span class="coverage__kicker">04 · The horizon</span>
+        <h3>Chart & On Deck</h3>
+        <p>
+          One chart worth a thousand headlines, and the handful of events that
+          will matter next week.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <section class="wrap" id="issues">
+    {
+      latest && (
+        <>
+          <p class="section-label">Latest issue</p>
+          <article class="feature">
+            <p class="feature__meta">
+              {latest.data.issue ? `No. ${latest.data.issue} · ` : ''}
+              {fmt.format(latest.data.date)} · {readingTime(latest.body)} min read
+            </p>
+            <h2>
+              <a href={`/issues/${latest.id}/`}>{latest.data.title}</a>
+            </h2>
+            {latest.data.dek && <p>{latest.data.dek}</p>}
+            <a class="feature__read" href={`/issues/${latest.id}/`}>Read the issue →</a>
+          </article>
+        </>
+      )
+    }
+
+    <p class="section-label">All issues</p>
+    {
+      issues.length === 0 ? (
+        <p class="empty">Issue No. 1 lands this Sunday.</p>
+      ) : rest.length === 0 ? (
+        <p class="empty">More issues arrive every Sunday.</p>
+      ) : (
+        <ul class="issue-list">
+          {rest.map((issue) => (
+            <li class="issue-row">
+              <div class="issue-row__meta">
+                {issue.data.issue && <div class="issue-row__num">No. {issue.data.issue}</div>}
+                <div>{fmt.format(issue.data.date)}</div>
+                <div>{readingTime(issue.body)} min read</div>
+              </div>
+              <div>
+                <h2>
+                  <a href={`/issues/${issue.id}/`}>{issue.data.title}</a>
+                </h2>
+                {issue.data.dek && <p>{issue.data.dek}</p>}
+                {issue.data.tags && (
+                  <div class="tags">
+                    {issue.data.tags.map((t) => (
+                      <span class="tag">{t}</span>
+                    ))}
+                  </div>
+                )}
+              </div>
+            </li>
+          ))}
+        </ul>
+      )
+    }
+  </section>
+
+  <section class="band">
+    <div class="wrap band__inner">
+      <h2>Advisors read it to understand their next clients. Their next clients read it to understand what's coming.</h2>
+      <p>
+        One email, every Sunday. Markets, the world economy, and the great
+        wealth transfer — from the receiving end.
+      </p>
+      {
+        SITE.subscribeUrl ? (
+          <a class="btn" href={SITE.subscribeUrl}>Subscribe free</a>
+        ) : (
+          <span class="subscribe__placeholder">Add your Beehiiv link in src/config.ts to activate this button</span>
+        )
+      }
+    </div>
+  </section>
+
+  <script>
+    const el = document.getElementById('transfer-count');
+    const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (el && !reduced) {
+      const target = 84e12;
+      const duration = 1600;
+      const start = performance.now();
+      const fmt = (n: number) => '$' + Math.round(n).toLocaleString('en-US');
+      const tick = (now: number) => {
+        const t = Math.min(1, (now - start) / duration);
+        const eased = 1 - Math.pow(1 - t, 3);
+        el.textContent = fmt(target * eased);
+        if (t < 1) requestAnimationFrame(tick);
+      };
+      requestAnimationFrame(tick);
+    }
+  </script>
+</Base>
